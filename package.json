@@ -1,0 +1,21 @@
+{
+  "name": "first_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "package": "asar pack MyApp.app/Contents/Resources/app MyApp.app/Contents/Resources/app.asar",
+    "build": "electron-packager . MyApp2 --ignore=node_modules "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "asar": "^3.1.0",
+    "electron": "^17.0.1"
+  },
+  "devDependencies": {
+    "electron-packager": "^15.4.0",
+    "electron-prebuilt": "^1.4.13"
+  }
+}

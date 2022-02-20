@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hisoblash usullari</title>
+    <script src="main.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #232323;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            margin-top: 10vh;
+            font-size: 18px;
+            font-family: sans-serif;
+        }
+
+        select {
+            flex: 1;
+            max-height: 40px;
+        }
+
+        form {
+            flex: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        form input {
+            font-size: 18px;
+            padding: 7px 14px;
+            margin-bottom: 1rem;
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            border: 1px solid #fff;
+        }
+
+        form button {
+            border: none;
+            outline: none;
+            background-color: #555;
+            color: #fff;
+            font-size: 18px;
+            padding: 7px 14px;
+            margin-bottom: 1rem;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #fff;
+            color: #555;
+        }
+
+        p {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <select name="select" id="select">
+        <option value="0" selected>
+            Tanlang
+        </option>
+    </select>
+    <form action="" id="form">
+    </form>
+    <p>Natija : <b id="result"></b></p>
+
+    <script>
+        require('./render.js')
+        let funksiya = require('./main.js')
+        const selectOption = [{
+                id: 0,
+                name: `Qo'shish`,
+                count: 3
+            },
+            {
+                id: 1,
+                name: `Ayirish`,
+                count: 2
+            },
+            {
+                id: 3,
+                name: `Ko'paytirish`,
+                count: 4
+            },
+            {
+                id: 4,
+                name: `Bo'lish`,
+                count: 2
+            }
+        ]
+        const dinamikInput = 0;
+        const select = document.querySelector("#select");
+        const form = document.querySelector("#form");
+        const bResult = document.querySelector("#result");
+        let result = 0;
+        let operator = 0
+        for (let i = 0; i < selectOption.length; i++) {
+            select.innerHTML += `<option value=${selectOption[i].count}>${selectOption[i].name}</option>`
+        }
+        select.addEventListener('change', e => {
+            operator = selectOption.filter(item => item.count == e.target.value)[0].id
+            AddInput(e.target.value)
+        })
+        const AddInput = (x = 0) => {
+            form.innerHTML = ""
+            for (let i = 0; i < parseInt(x); i++) {
+                form.innerHTML += `<input type="number" name="" id="" required>`
+            }
+            form.innerHTML += `<button type="submit">Ok</button>`
+        }
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const inputs = document.querySelectorAll("#form > input");
+            if (operator == 0) {
+                // for (let i = 0; i < inputs.length; i++) 
+                //     result+=parseFloat(inputs[i].value)
+                 funksiya.sum(inputs[0].value, inputs[1].value, inputs[2].value, (err, data) => {
+                    console.log(data)
+                    console.log("data: "+data.msg)
+                   result=data.msg*1
+                   bResult.innerHTML = result
+                })
+
+            } else if (operator == 1) {
+                result = parseFloat(inputs[0].value) - parseFloat(inputs[1].value);
+                bResult.innerHTML = result
+            } else if (operator == 3) {
+                result = 1;
+                for (let i = 0; i < inputs.length; i++)
+                    result *= parseFloat(inputs[i].value)
+                bResult.innerHTML = result
+            } else {
+                result = parseFloat(inputs[0].value) / parseFloat(inputs[1].value);
+                bResult.innerHTML = result
+            }
+           
+        })
+    </script>
+</body>
+
+</html>
